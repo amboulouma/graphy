@@ -34,3 +34,23 @@ class Graph:
             state[vertex_first_out] = 'processed'
         return pi
 
+
+    def dfs(self, initial_vertex):
+        pi = {}
+        state = {}
+        q = queue.LifoQueue()
+        for vertex in self.graph.keys():
+            pi[vertex] = None
+            state[vertex] = 'undiscovered'
+        q.put(initial_vertex)
+        state[initial_vertex] = 'discovered'
+        while not(q.empty()):
+            vertex_first_out = q.get()
+            for successors in self.graph[vertex_first_out]:
+                for successor in successors:
+                    if state[successor] == 'undiscovered':
+                        q.put(successor)
+                        state[successor] = 'discovered'
+                        pi[successor] = vertex_first_out
+            state[vertex_first_out] = 'processed'
+        return pi
